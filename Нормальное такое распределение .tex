@@ -1,0 +1,173 @@
+\documentclass[a4paper,12pt]{article}
+
+\usepackage{cmap}					
+\usepackage{mathtext} 				
+\usepackage[T2A]{fontenc}			
+\usepackage[utf8]{inputenc}			
+\usepackage[english,russian]{babel}	
+\usepackage{amsmath,amsfonts,amssymb,amsthm,mathtools}
+\usepackage{icomma}
+\mathtoolsset{showonlyrefs=true} 
+\usepackage{euscript}	 
+\usepackage{mathrsfs} 
+\usepackage{multirow}
+\usepackage{hhline}
+\DeclareMathOperator{\sgn}{\mathop{sgn}} 
+\newcommand*{\hm}[1]{#1\nobreak\discretionary{}
+	{\hbox{$\mathsurround=0pt #1$}}{}}
+
+\usepackage{graphicx}
+\usepackage{amsfonts}
+\graphicspath{{images/}}
+\DeclareGraphicsExtensions{.pdf,.png,.jpg} 
+\usepackage{wrapfig}
+\usepackage{lastpage}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{braket}
+\usepackage{verbatim}
+\usetikzlibrary{arrows}
+\usetikzlibrary{calc,positioning,fit,backgrounds}
+\usepackage{amsmath} 
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}	
+\usepackage[english,russian]{babel}
+\usepackage{geometry} 
+\geometry{top=15mm}
+\geometry{bottom=15mm}
+\geometry{left=15mm}
+\geometry{right=15mm}	
+\usepackage{amssymb}
+\usepackage{icomma} 
+\usepackage{mathtext} 
+\usepackage{mathrsfs}
+\usepackage{mathtools}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0,04mm}
+\usepackage{hyperref}
+\usepackage{mathtext} 
+\usepackage{multicol}
+\pgfplotsset{compat=1.6}
+\rhead{Исследовательский поток}
+\lhead{Теория вероятности и статистика}
+%\chead{\date{\today}} 
+\cfoot{\thepage} 
+\makeatletter % сделать "@" "буквой", а не "спецсимволом" - можно использовать "служебные" команды, содержащие @ в названии
+\renewcommand{\headrulewidth}{0,6mm} 
+
+\renewcommand{\maketitle}
+{\begin{center}
+		\noindent{\bfseries\scshape\LARGE\@title}\par
+		\noindent {\large\itshape\@author}
+		\vskip 2ex
+\end{center}}
+\makeatother
+
+
+\author{Кордзахия, Никулина, Скворцов и Татаринов}
+\title{Нормальное такое распределение}
+\date{\today}
+
+\begin{document} 
+	
+	\maketitle
+	\section*{Сквозь тернии к звездам}
+\large Нормальное распределение обладает самой красивой функцией плотности среди всех распределений:
+\begin{equation*}
+f\,(x) = \frac{1}{\sqrt{2\pi\sigma^2}}\; e^{-\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^2}
+\end{equation*}
+
+Но почему оно выглядит именно так, а не иначе? 
+Вид нормального распределения — результат работы нескольких поколений ученых  {\scshape xvi-xix} столетий. Исток нормального распределения, как и исток многих человеческих достижений, кроется в человеческих ошибках — а точнее, в ошибках астрономических измерений.
+
+Астрономические исследования требуют точности и в то же время подвержены ошибкам наблюдения. Вопрос о том, как получать максимально точные оценки координат небесных тел, был актуален еще со времен Древней Греции. Во втором веке до н. э. Гиппарх использовал среднее минимума и максимума; четыре же столетия спустя Птолемей грешил выбором наиболее удобного для объяснения значения. Ученые эпохи Возрождения привыкли к множественному сбору данных, но не смогли определиться с конвертацией их в единый показатель: помимо среднего и медианы, использовались уникальные и не всегда очевидные методы. Например, основываясь на следующих наблюдениях: \\
+\begin{center}
+	\begin{tabular}{ | l | l | l | l | }
+			\hline
+		& $\circ$ & $'$ & $''$ \\
+	\hline
+	используя яркую звезду стопы Близнецов & 134 & 23 & 39 \\ 
+	используя Регул & 134 & 27 & 37 \\
+	используя Поллукс & 134 & 23 & 18 \\
+	в 12 ч. 17 м., используя третью звезду крыла Девы & 134 & 29 & 48 \\
+	\hline
+	Среднее с учетом однозначности наблюдений: & 134 & 24 & 33 \\
+	\hline
+\end{tabular}
+\end{center}
+
+	
+	Иоганн Кеплер получил собственную оценку прямого восхождения Марса — 134$^\circ$ 26$'$ 5.5$''$. До сих пор неизвестно, каким образом эта оценка была получена. 
+	
+	Как бы то ни было, астрономы того времени знали о существовании ошибок наблюдения и пытались с ними бороться.
+	
+	\section*{Гауссова кривая}
+	Впервые свойства случайных ошибок были описаны Галилео Галилеем в 1632 году, каждое из них  до сих пор используется в рамках статистики и эконометрики:
+	\begin{itemize}
+		\item  Существует одно, истинное значение наблюдаемой переменной.
+		\item  Все наблюдения подвержены ошибкам, связанным с наблюдателем, инструментарием и прочими условиями.
+		\item  Наблюдения распределены равномерно около истинного значения. Значит, ошибки распределены равномерно вокруг нуля.
+		\item  Маленькие ошибки более вероятны, нежели большие.
+	\end{itemize}
+	
+	Из утверждений Галилео следовало, что при достаточно большой выборке для оценки истинного значения достаточно посчитать среднее всех наблюдений, так как даже серьезные отклонения будут нивелированы своей малой частотой появления и не вызовут сильных искажений.
+	
+	Но как формализовать функцию таким образом, чтобы минимизировать вероятность сделанной ошибки? Ответ на этот вопрос был дан почти 200 лет спустя; в 1801 году итальянский астроном Джузеппе Пьяцци обнаружил небесное тело, ныне именуемое Церерой, и сделал предположение о ее планетарном характере. К сожалению, сделанных наблюдений не хватило, чтобы надежно вычислить орбиту Цереры: через полгода после обнаружения она скрылась за Солнцем. Перед астрономами встала задача вычислить место ее повторного появления, основываясь на 21 наблюдении, сделанном Пьяцци.
+	
+	Для вычисления места второго появления Цереры Гаусс использовал разработанный им метод наименьших квадратов, который утверждает, что лучшей оценкой некоего истинного параметра $\mu$ является среднее его наблюдений, поскольку  оно решает задачу минимизации квадратичной функции ошибок:
+	
+	\[
+	\arg \min\limits_{\mu} \sum \epsilon_i^2 = \sum (y_i - \mu)^2 = \frac{y_1 + \ldots + y_n}{n} = \bar y
+	\]
+	Чтобы защитить этот подход, Гауссу необходимо было найти такое распределение ошибок, которое согласовывалось бы с предпосылками, сделанными Галилео, и обеспечивало бы максимальную правдивость имеющихся сведений при $\hat\mu = \bar y$. 
+	
+	Таким образом, {\fontseries{sb}\selectfont Гаусс делает следующие предположения:}
+	\begin{itemize}
+		\item $\mu$ --- истинное значение;
+		\item $y_i = \mu + \epsilon_i$, где $\epsilon_i$ --- ошибка измерения;
+		\item $\epsilon_i$ --- н.о.р.с.в., симметрично распределенные относительно нуля;
+		\item Вероятность правдивости имеющихся сведений максимальна, если за истинное значение принимается среднее: $\arg\max\limits_{\mu} f_{Y_1, \ldots, Y_n}(y_1, \ldots, y_n; \mu) = \bar{y}$ .
+	\end{itemize}
+	
+	Оказалось, что этим требованиям удовлетворяет именно колоколообразная кривая!
+	\section*{Доказательство}
+	Решим задачу по поиску максимума функции плотности этого случайного вектора:
+	\[ L = f_{Y_1,..., Y_n}(y_1, ..., y_n; \mu) = f_{Y_1}(y_1; \mu) \cdot f_{Y_2}(y_2; \mu) \cdot \ldots \cdot f_{Y_n}(y_n; \mu)\] 
+	При этом заметим, что $f_{Y_i}(y_i; \mu) = f_{\epsilon_i}(y_i - \mu)$. Тогда 
+	\[ L = f_{\epsilon}(y_1 - \mu) \times f_{\epsilon}(y_2 - \mu) \times ... \times f_{\epsilon}(y_n - \mu)\]
+	Проведем монотонное преобразование:
+	\[ \ln L = \ln f_{\epsilon}(y_1 - \mu) + ... +  \ln f_{\epsilon}(y_n - \mu) \rightarrow \underset{\mu}{max} \]
+	\[ \frac{\partial \ln L}{\partial \mu} = \frac{f_{\epsilon}^{'}(y_1 - \mu)(-1)}{f_{\epsilon}(y_1 - \mu)} + ... + \frac{f_{\epsilon}^{'}(y_n - \mu)(-1)}{f_{\epsilon}(y_n - \mu)} = 0\]
+	\[ \sum_i{\frac{f_{\epsilon}^{'}(y_i - \mu)}{f_{\epsilon}(y_i - \mu)}} = 0\]
+	
+	Теперь попробуем сделать некоторые выводы о распределении ошибок $\epsilon_i$, а, точнее,- об их функции плотности  $f_\epsilon(\cdot)$. \\
+	
+	Так как значения $y_i$ могут быть любыми, предположим, что, при общем количестве измерений равном $n + 1$:
+	$y_1 = y_2 = .. = y_n = M$, причем $M \neq \bar{y}$ и $M - \bar{y} = \alpha$. Тогда
+	
+	\[ \bar{y} = \frac{ny_1 + y_{n + 1}}{n + 1}\]
+	\[ y_{n+1} - \bar{y} = n(\bar{y} - y_1) = n\alpha\]
+	
+	Таким образом, мы можем представить сумму как
+	\[ \Rightarrow \sum_i = n\frac{f_{\epsilon}^{'}(\alpha)}{f_{\epsilon}(\alpha)} + \frac{f_{\epsilon}^{'}(-n\alpha)}{f_{\epsilon}(-n\alpha)} = 0\] 
+	
+	\[ n\frac{f_{\epsilon}^{'}(\alpha)}{f_{\epsilon}(\alpha)} =  \frac{f_{\epsilon}^{'}(n\alpha)}{f_{\epsilon}(n\alpha)} \]
+	
+	Если обозначить $\frac{f_{\epsilon}^{'}(\alpha)}{f_{\epsilon}(\alpha)} = g(\alpha)$, то можно заметить, что функция $g(\alpha)$, удовлетворяющая условию $g(n\alpha) = ng(\alpha)$, - линейна. 
+	
+	Тогда представим $g(\alpha)$, как линейную функцию, зависящую от некоторого параметра $\gamma$
+	
+	\[  \frac{f_{\epsilon}^{'}(\alpha)}{f_{\epsilon}(\alpha)} =  \gamma \alpha\]
+	\[ \frac{d f/ d \alpha}{f} = \gamma \alpha\]
+	\[ \int \frac{d f}{f} = \int \gamma \alpha d \alpha\] 
+	\[ \ln f = \frac{1}{2} \gamma \alpha^2 + C\] 
+	\[ f = C \times \exp{(\dfrac{1}{2}\gamma \alpha^2)}, \gamma < 0, C > 0\]
+	Пусть $\gamma = - \frac{1}{\sigma^2}$
+	\[ f_\epsilon(x) = C \exp{(-\frac{x^2}{2\sigma^2})} \rightarrow \epsilon_i \sim N(0, \sigma^2)\]
+	\[ \mu + \epsilon_i = Y_i \sim N(\mu, \sigma^2)\]
+	
+
+
+\end{document}
