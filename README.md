@@ -5,3 +5,7 @@
 
 ## Оверлиф
 Основная работа над проектом проводится в Оверлифе по ссылке: [https://www.overleaf.com/read/ffshzymqysnc](https://www.overleaf.com/read/ffshzymqysnc). Промежутночный результат можно посмотреть в файле `normal_distribution.pdf`
+
+## Файлы
+Нормальное такое распределение.tex и Нормальное такое распределение.pdf - текст работы 
+Normal_distribution.pdf - итогвый файл в виде плаката
