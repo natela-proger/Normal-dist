@@ -1,0 +1,314 @@
+\documentclass[a1paper, 14pt, portrait, 
+               innermargin = 35mm, 
+               blockverticalspace=0.25cm
+               ]{tikzposter}
+\usepackage{xltxtra}
+\usepackage{polyglossia}
+\setmainlanguage{russian}
+\setotherlanguage{english}
+\setkeys{russian}{babelshorthands=true}
+\usepackage{fontspec}  
+\usepackage{xcolor}
+
+% TikzPoster Presets:
+
+	\definecolor{storm}{HTML}{325D79}
+	\definecolor{teal}{HTML}{9BD7D1}
+	\definecolor{sunburst}{HTML}{F26627}
+	\definecolor{sand}{HTML}{F9A26C}
+	\definecolor{cloud}{HTML}{EFEEEE}
+	
+	\definecolor{weber}{HTML}{c29800}
+	\definecolor{db}{HTML}{1c1309}
+	\definecolor{bg}{HTML}{f2f1f0}
+
+	\definecolorstyle{Normal}{
+		\colorlet{One}{storm}
+		\colorlet{Two}{teal}
+		\colorlet{Three}{sunburst}
+	}{
+	% Background
+		\colorlet{backgroundcolor}{white}
+		\colorlet{framecolor}{storm}
+	% Title
+		\colorlet{titlefgcolor}{weber}
+		\colorlet{titlebgcolor}{weber}
+	% Blocks
+		\colorlet{blocktitlebgcolor}{sand} 
+		\colorlet{blocktitlefgcolor}{db} 
+		\colorlet{blockbodybgcolor}{white} 
+		\colorlet{blockbodyfgcolor}{db}
+	% Innerblock colors 
+		\colorlet{innerblocktitlebgcolor}{white} 	\colorlet{innerblocktitlefgcolor}{black} \colorlet{innerblockbodybgcolor}{white} \colorlet{innerblockbodyfgcolor}{black}
+	% Note colors 
+		\colorlet{notefgcolor}{black} 
+		\colorlet{notebgcolor}{sunburst} 
+		\colorlet{notefrcolor}{white}
+	}
+
+
+	\defineblockstyle{mtec}{
+    titlewidthscale=1, bodywidthscale=1, titleleft,
+    titleoffsetx=0pt, titleoffsety=0pt, bodyoffsetx=5pt, bodyoffsety=0pt,
+    bodyverticalshift=0pt, roundedcorners=0, linewidth=0.2cm,
+    titleinnersep=1cm, bodyinnersep=1cm
+}{
+    \begin{scope}[line width=\blocklinewidth, rounded corners=\blockroundedcorners]
+       \ifBlockHasTitle %
+           \draw[color=weber, line width = 3pt]
+               ([xshift=30pt, yshift=5pt]blocktitle.south west) -- ([xshift=-30pt, yshift=5pt]blocktitle.south east);%
+                \else
+             \draw[draw=none]%, fill=blockbodybgcolor]
+                 (blockbody.south west) rectangle (blockbody.north east);
+        \fi
+    \end{scope}
+}  
+
+%\usecolorstyle[colorPalette=GreenGrayViolet]{Denmark}
+\usecolorstyle{Normal}
+\useblockstyle{mtec}
+\usetitlestyle{Empty}
+
+
+% Font Presets:
+
+    \usepackage{unicode-math}
+      \setmathfont{Libertinus Math}
+      \setmathfont[range=\mathup]{KazimirText-Book.ttf}
+      \setmathfont[range=it/{latin, Latin, num}]{KazimirText-BookIt.ttf}
+      %\setmathfont[range={"005B,"005D,"0028,"0029,"007B,"007D}]{KazimirText-BookIt.ttf}
+
+    %\setmathfont{Fonts/RobotoSlab-SemiBold.ttf}
+    
+    \setromanfont[
+            BoldFont=KazimirText-Bold.ttf, 
+            ItalicFont = KazimirText-BookIt.ttf,
+            FontFace = {l}{n}{KazimirText-Light.ttf},
+            FontFace = {eb}{n}{KazimirText-Black.ttf}, 
+            FontFace = {sb}{n}{KazimirText-SemiBold.ttf},
+            Ligatures={Rare},
+            Numbers={Proportional},
+            SmallCapsFont={KazimirText-Regular.ttf},
+            SmallCapsFeatures={Letters=SmallCaps}
+            ]{KazimirText-Regular.ttf}
+%    \newfontfamily\cyrillicfont{KazimirText-Book.ttf}
+    
+    \setsansfont[Ligatures=TeX, BoldFont=Jura-Bold.ttf, FontFace = {sb}{n}{Jura-Medium.ttf}]{Jura-SemiBold.ttf}
+    
+    \newfontfamily\kazimir{Kazimir-Regular.ttf}[%
+        ItalicFont = Kazimir-Italic.ttf,
+        BoldFont = Kazimir-Bold.ttf,
+        BoldItalicFont = Kazimir-BoldItalic.ttf,
+        FontFace = {l}{n}{Kazimir-Light.ttf},
+        FontFace = {l}{it}{Kazimir-LightItalic.ttf},
+        FontFace = {sb}{n}{Kazimir-Medium.ttf},
+        FontFace = {sb}{it}{Kazimir-MediumItalic.ttf},
+        FontFace = {eb}{n}{Kazimir-Black.ttf},
+        FontFace = {eb}{it}{Kazimir-BlackItalic.ttf}
+        ]
+    \newfontfamily\jura{Jura-Regular.ttf}[%
+        BoldFont = Jura-Bold.ttf,
+        FontFace = {sb}{n}{Jura-Medium.ttf}
+    ]
+    \newfontfamily\roboto{RobotoCondensed-Regular.ttf}
+    
+    
+    
+    \tikzset{
+       BaseFont/.style    = { font = \basefont },
+       BrightFont/.style  = { BaseFont, white },
+       NameFont/.style    = { BrightFont,
+                              font = \basefont\fontsize{40pt}{48pt}\selectfont },
+       TitleFont/.style   = { BrightFont,
+                              font = \basefont\fontsize{16pt}{20pt}\selectfont },
+    }
+
+
+	\usepackage{xpatch}
+	\xpatchcmd{\block}{\bf\LARGE\color{blocktitlefgcolor}}{\sffamily\LARGE\color{blocktitlefgcolor}}{}{} 
+
+
+% Stuff:
+	\usepackage{graphicx}
+	\usepackage{tikz}
+	\usepackage{pgfplots}
+		\pgfplotsset{compat=1.15}
+		\pgfmathdeclarefunction{gauss}{2}{%
+  \pgfmathparse{1/(#2*sqrt(2*pi))*exp(-((x-#1)^2)/(2*#2^2))}%
+}
+	\usepackage{pgfplotstable}
+	\usepackage{multicol}
+        \setlength\columnsep{50pt}
+	\usepackage{fontawesome5}
+	\usepackage{etoolbox}
+	\usepackage{soul}
+	\usepackage[colorlinks=false]{hyperref}
+	\usepackage{setspace}
+        \setstretch{1.2}
+    \usepackage{lettrine}
+    \usepackage{booktabs}
+    \renewcommand{\arraystretch}{1.2}
+	 
+
+
+% Turn off numeration of Tikz captions:
+	\renewenvironment{tikzfigure}[1][]{
+		\def \rememberparameter{#1}
+		\vspace{10pt}
+		\refstepcounter{figurecounter}
+		\begin{center}
+		}{
+			\ifx\rememberparameter\@empty
+			\else %nothing
+			\\[10pt]
+			%{\small Fig.~\thefigurecounter: \rememberparameter}
+			{\small \rememberparameter}
+			\fi
+		\end{center}
+	}
+
+
+\title{\fontsize{50}{50}\selectfont \sffamily\bfseries Нормальное распределение}
+\author{\color{db}
+\fontsize{17}{17}\selectfont 
+\fontspec{KazimirText-Regular.ttf}[Variant=1]Кордзахия, Никулина, Скворцов \& Татаринов \faUserAstronaut}
+%\titlegraphic{\resizebox{\linewidth}{!}{\begin{tikzpicture}\begin{axis}[ticks=none,x post scale=6,every axis plot post/.append style={mark=none,domain=-20:20,samples=50,smooth},axis line style={draw=none},axis x line*=bottom,axis y line*=center,enlargelimits=false]\addplot {gauss(0,5)};\addplot{gauss(0,7)};\addplot{gauss(0,9)};\addplot{gauss(0,12)};\end{axis}\end{tikzpicture}}}
+\date{\today}
+
+\usepackage{blindtext}
+\usetikzlibrary{positioning}
+
+
+
+\begin{document}
+
+\node[above right,opacity=0.1,inner sep=0pt,outer sep=0pt] at (-29.6,%33.5
+-41) {\resizebox{\linewidth}{!}{\begin{tikzpicture}\begin{axis}[ticks=none,x post scale=0.6,every axis plot post/.append style={mark=none,domain=-20:20,samples=50,smooth},axis line style={draw=none},axis x line*=bottom,axis y line*=center,enlargelimits=false]\addplot[color = weber] {gauss(0,5)};\addplot[color = db]{gauss(0,7)};\addplot[color = sand]{gauss(0,9)};\addplot[color = teal]{gauss(0,12)};\end{axis}\end{tikzpicture}}};
+
+\maketitle[
+        %titletoblockverticalspace = -0.5cm
+    ]
+
+\block{Сквозь тернии к звездам}{
+    \begin{multicols}{3}
+        \lettrine{Н}{ормальное распределение} обладает самой красивой функцией плотности среди всех распределений:
+            \begin{equation*}
+                f\,(x) = \frac{1}{\sqrt{2\pi\sigma^2}}\; e^{-\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^2}
+            \end{equation*}
+            
+        Но почему оно выглядит именно так, а не иначе? 
+        Вид нормального распределения — результат работы нескольких поколений ученых  {\scshape xvi-xix} столетий. Исток нормального распределения, как и исток многих человеческих достижений, кроется в человеческих ошибках — а точнее, в ошибках астрономических измерений.
+        
+        Астрономические исследования требуют точности и в то же время подвержены ошибкам наблюдения. Вопрос о том, как получать максимально точные оценки координат небесных тел, был актуален еще со времен Древней Греции. Во втором веке до н. э. Гиппарх использовал среднее минимума и максимума; четыре же столетия спустя Птолемей грешил выбором наиболее удобного для объяснения значения. Ученые эпохи Возрождения привыкли к множественному сбору данных, но не смогли определиться с конвертацией их в единый показатель: помимо среднего и медианы, использовались уникальные и не всегда очевидные методы. Например, основываясь на следующих наблюдениях:
+        
+        \vspace{1ex}
+        \resizebox{\linewidth}{!}{
+        \centering \selectfont\roboto
+            \begin{tabular}{@{}lccc@{}}
+            \multicolumn{4}{l}{
+                Прямое восхождение Марса 13/23 января 1600 г. в 11 часов 50 минут:
+            } \\
+            \toprule
+                & $\circ$ & $'$ & $''$ \\ \midrule
+                используя яркую звезду стопы Близнецов & 134 & 23 & 39 \\
+                используя Регул & 134 & 27 & 37 \\
+                используя Поллукс & 134 & 23 & 18 \\
+                в 12 ч. 17 м., используя третью звезду крыла Девы & 134 & 29 & 48 \\ \midrule
+                Среднее с учетом однозначности наблюдений: & 134 & 24 & 33 \\ \bottomrule
+            \end{tabular}
+        }
+        \vspace{1ex}
+        
+        Иоганн Кеплер получил собственную оценку прямого восхождения Марса — 134$^\circ$ 26$'$ 5.5$''$. До сих пор неизвестно, каким образом эта оценка была получена. 
+        
+        Как бы то ни было, астрономы того времени знали о существовании ошибок наблюдения и пытались с ними бороться.
+
+        
+
+    \end{multicols}
+} 
+
+\block{Гауссова кривая}{
+\begin{multicols}{3}
+    Впервые свойства случайных ошибок были описаны Галилео Галилеем в 1632 году, каждое из них  до сих пор используется в рамках статистики и эконометрики:
+    \begin{itemize}
+        \item  Существует одно, истинное значение наблюдаемой переменной.
+        \item  Все наблюдения подвержены ошибкам, связанным с наблюдателем, инструментарием и прочими условиями.
+        \item  Наблюдения распределены равномерно около истинного значения. Значит, ошибки распределены равномерно вокруг нуля.
+        \item  Маленькие ошибки более вероятны, нежели большие.
+    \end{itemize}
+    
+    Из утверждений Галилео следовало, что при достаточно большой выборке для оценки истинного значения достаточно посчитать среднее всех наблюдений, так как даже серьезные отклонения будут нивелированы своей малой частотой появления и не вызовут сильных искажений.
+    
+    Но как формализовать функцию таким образом, чтобы минимизировать вероятность сделанной ошибки? Ответ на этот вопрос был дан почти 200 лет спустя; в 1801 году итальянский астроном Джузеппе Пьяцци обнаружил небесное тело, ныне именуемое Церерой, и сделал предположение о ее планетарном характере. К сожалению, сделанных наблюдений не хватило, чтобы надежно вычислить орбиту Цереры: через полгода после обнаружения она скрылась за Солнцем. Перед астрономами встала задача вычислить место ее повторного появления, основываясь на 21 наблюдении, сделанном Пьяцци.
+    
+    Для вычисления места второго появления Цереры Гаусс использовал разработанный им метод наименьших квадратов, который утверждает, что лучшей оценкой некоего истинного параметра $\mu$ является среднее его наблюдений, поскольку  оно решает задачу минимизации квадратичной функции ошибок:
+    
+    \[
+    \arg \min\limits_{\mu} \sum \epsilon_i^2 = \sum (y_i - \mu)^2 = \frac{y_1 + \ldots + y_n}{n} = \bar y
+    \]
+    Чтобы защитить этот подход, Гауссу необходимо было найти такое распределение ошибок, которое согласовывалось бы с предпосылками, сделанными Галилео, и обеспечивало бы максимальную правдивость имеющихся сведений при $\hat\mu = \bar y$. 
+
+   Таким образом, {\fontseries{sb}\selectfont Гаусс делает следующие предположения:}
+    \begin{itemize}
+    	\item $\mu$ --- истинное значение;
+    	\item $y_i = \mu + \epsilon_i$, где $\epsilon_i$ --- ошибка измерения;
+    	\item $\epsilon_i$ --- н.о.р.с.в., симметрично распределенные относительно нуля;
+    	\item Вероятность правдивости имеющихся сведений максимальна, если за истинное значение принимается среднее: $\arg\max\limits_{\mu} f_{Y_1, \ldots, Y_n}(y_1, \ldots, y_n; \mu) = \bar{y}$ .
+    \end{itemize}
+    
+    Оказалось, что этим требованиям удовлетворяет именно колоколообразная кривая!
+\end{multicols}
+
+
+}
+
+
+\begin{columns} 
+    \column{1} \block{Доказательство}{
+    \begin{multicols}{3}
+    Решим задачу по поиску максимума функции плотности этого случайного вектора:
+    \[ L = f_{Y_1,..., Y_n}(y_1, ..., y_n; \mu) = f_{Y_1}(y_1; \mu) \cdot f_{Y_2}(y_2; \mu) \cdot \ldots \cdot f_{Y_n}(y_n; \mu)\] 
+    При этом заметим, что $f_{Y_i}(y_i; \mu) = f_{\epsilon_i}(y_i - \mu)$. Тогда 
+    \[ L = f_{\epsilon}(y_1 - \mu) \times f_{\epsilon}(y_2 - \mu) \times ... \times f_{\epsilon}(y_n - \mu)\]
+    Проведем монотонное преобразование:
+    \[ \ln L = \ln f_{\epsilon}(y_1 - \mu) + ... +  \ln f_{\epsilon}(y_n - \mu) \rightarrow \underset{\mu}{max} \]
+    \[ \frac{\partial \ln L}{\partial \mu} = \frac{f_{\epsilon}^{'}(y_1 - \mu)(-1)}{f_{\epsilon}(y_1 - \mu)} + ... + \frac{f_{\epsilon}^{'}(y_n - \mu)(-1)}{f_{\epsilon}(y_n - \mu)} = 0\]
+    \[ \sum_i{\frac{f_{\epsilon}^{'}(y_i - \mu)}{f_{\epsilon}(y_i - \mu)}} = 0\]
+
+    Теперь попробуем сделать некоторые выводы о распределении ошибок $\epsilon_i$, а, точнее,- об их функции плотности  $f_\epsilon(\cdot)$. \\
+    
+    Так как значения $y_i$ могут быть любыми, предположим, что, при общем количестве измерений равном $n + 1$:
+     $y_1 = y_2 = .. = y_n = M$, причем $M \neq \bar{y}$ и $M - \bar{y} = \alpha$. Тогда
+    
+    \[ \bar{y} = \frac{ny_1 + y_{n + 1}}{n + 1}\]
+    \[ y_{n+1} - \bar{y} = n(\bar{y} - y_1) = n\alpha\]
+    
+    Таким образом, мы можем представить сумму как
+    \[ \Rightarrow \sum_i = n\frac{f_{\epsilon}^{'}(\alpha)}{f_{\epsilon}(\alpha)} + \frac{f_{\epsilon}^{'}(-n\alpha)}{f_{\epsilon}(-n\alpha)} = 0\] 
+    
+    \[ n\frac{f_{\epsilon}^{'}(\alpha)}{f_{\epsilon}(\alpha)} =  \frac{f_{\epsilon}^{'}(n\alpha)}{f_{\epsilon}(n\alpha)} \]
+    
+    Если обозначить $\frac{f_{\epsilon}^{'}(\alpha)}{f_{\epsilon}(\alpha)} = g(\alpha)$, то можно заметить, что функция $g(\alpha)$, удовлетворяющая условию $g(n\alpha) = ng(\alpha)$, - линейна. 
+     
+    Тогда представим $g(\alpha)$, как линейную функцию, зависящую от некоторого параметра $\gamma$
+    
+    \[  \frac{f_{\epsilon}^{'}(\alpha)}{f_{\epsilon}(\alpha)} =  \gamma \alpha\]
+    \[ \frac{d f/ d \alpha}{f} = \gamma \alpha\]
+    \[ \int \frac{d f}{f} = \int \gamma \alpha d \alpha\] 
+    \[ \ln f = \frac{1}{2} \gamma \alpha^2 + C\] 
+    \[ f = C \times \exp{(\dfrac{1}{2}\gamma \alpha^2)}, \gamma < 0, C > 0\]
+    Пусть $\gamma = - \frac{1}{\sigma^2}$
+    \[ f_\epsilon(x) = C \exp{(-\frac{x^2}{2\sigma^2})} \rightarrow \epsilon_i \sim N(0, \sigma^2)\]
+    \[ \mu + \epsilon_i = Y_i \sim N(\mu, \sigma^2)\]
+    
+    \end{multicols}
+    }
+    
+%    \column{0.4} \block{Почему <<нормальное>>?}{
+%        Тут
+%    }
+\end{columns}
+
+
+\end{document}
