@@ -4,4 +4,4 @@
 Во славу Гаусса и иже с ним :)
 
 ## Оверлиф
-Основная работа над проектом проводится в Оверлифе по ссылке: [https://www.overleaf.com/read/ffshzymqysnc](https://www.overleaf.com/read/ffshzymqysnc).
+Основная работа над проектом проводится в Оверлифе по ссылке: [https://www.overleaf.com/read/ffshzymqysnc](https://www.overleaf.com/read/ffshzymqysnc). Промежутночный результат можно посмотреть в файле `normal_distribution.pdf`
